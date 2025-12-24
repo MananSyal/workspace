@@ -151,6 +151,27 @@ app.get("/register", (req, res) => {
   if (req.user) return res.redirect("/");
   res.render("register", { layout: "auth-layout", error: null });
 });
+// =======================
+// Tasks Page
+// =======================
+app.get("/tasks", requireAuth, async (req, res, next) => {
+  try {
+    const tasks = await Task.find().populate("projectId");
+
+    const formattedTasks = tasks.map(task => ({
+      id: task._id,
+      title: task.title,
+      completed: task.completed,
+      projectTitle: task.projectId
+        ? task.projectId.title
+        : "Unknown"
+    }));
+
+    res.render("tasks", { tasks: formattedTasks });
+  } catch (err) {
+    next(err);
+  }
+});
 
 app.post("/register", async (req, res, next) => {
   try {
