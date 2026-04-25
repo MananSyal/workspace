@@ -4,7 +4,20 @@ const TaskSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     completed: { type: Boolean, default: false },
-    projectId: { type: mongoose.Schema.Types.ObjectId, ref: "Project" }
+
+    // ✅ keep this
+    projectId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Project",
+      required: true
+    },
+
+    // ✅ ADD THIS (CRITICAL)
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
+    }
   },
   { timestamps: true }
 );

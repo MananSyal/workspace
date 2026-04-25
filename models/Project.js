@@ -4,7 +4,15 @@ const ProjectSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     description: String,
-    progress: { type: Number, default: 0 }
+
+    // ✅ ADD THIS
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
+    }
+
+    // ❌ REMOVE progress (not needed anymore)
   },
   { timestamps: true }
 );

@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret-key-change-me";
 
-function authMiddleware(req, res, next) {
+async function authMiddleware(req, res, next) {
   const token = req.cookies ? req.cookies.token : null;
 
   if (!token) {
@@ -13,8 +14,19 @@ function authMiddleware(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
-    res.locals.user = decoded; // available in EJS as "user"
+
+    // 🔥 FETCH REAL USER FROM DB
+    const user = await User.findById(decoded.id);
+
+    if (!user) {
+      req.user = null;
+      res.locals.user = null;
+      return next();
+    }
+
+    req.user = user;            // FULL USER OBJECT
+    res.locals.user = user;     // for EJS
+
   } catch (err) {
     req.user = null;
     res.locals.user = null;
