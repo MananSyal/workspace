@@ -1,0 +1,42 @@
+<h2>Your Teams</h2>
+
+<% teams.forEach(team => { %>
+
+  <div style="border:1px solid black;padding:20px;margin:20px;">
+
+    <h3><%= team.name %></h3>
+
+    <h4>Members:</h4>
+
+    <ul>
+      <% team.members.forEach(member => { %>
+
+        <li>
+          <%= member.name %> -
+          <%= member.email %>
+        </li>
+
+      <% }) %>
+    </ul>
+
+    <form
+      action="/teams/<%= team._id %>/add-member"
+      method="POST"
+    >
+
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter teammate email"
+        required
+      >
+
+      <button type="submit">
+        Add Member
+      </button>
+
+    </form>
+
+  </div>
+
+<% }) %>

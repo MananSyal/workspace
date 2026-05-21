@@ -1,20 +1,41 @@
 <div style="max-width:1200px;">
 
-  <a href="/projects" style="display:inline-block; margin-bottom:16px;">
+  <a
+    href="/projects"
+    style="display:inline-block; margin-bottom:16px;"
+  >
     ← Back to projects
   </a>
 
-  <div class="stats" style="grid-template-columns: 2fr 1fr;">
+  <div
+    class="stats"
+    style="grid-template-columns: 2fr 1fr;"
+  >
 
-    <!-- Project Info -->
+    <!-- PROJECT INFO -->
+
     <div class="card">
+
       <h2><%= project.name %></h2>
+
       <p class="subtitle">
+
         <%= project.description || "No description" %>
+
       </p>
 
-      <p style="margin-top:20px;">Progress</p>
-      <div style="background:#e5e7eb; border-radius:10px; overflow:hidden;">
+      <p style="margin-top:20px;">
+        Progress
+      </p>
+
+      <div
+        style="
+          background:#e5e7eb;
+          border-radius:10px;
+          overflow:hidden;
+        "
+      >
+
         <div
           style="
             width:<%= project.progress %>%;
@@ -24,22 +45,35 @@
             padding:4px 0;
           "
         >
+
           <%= project.progress %>%
+
         </div>
+
       </div>
+
     </div>
 
-    <!-- Add Task -->
+    <!-- ADD TASK -->
+
     <div class="card">
+
       <h3>Add Task</h3>
 
-      <form action="/projects/<%= project.id %>/tasks" method="POST">
+      <form
+        action="/projects/<%= project.id %>/tasks"
+        method="POST"
+      >
+
         <input
           type="text"
           name="title"
           placeholder="What needs to be done?"
           required
-          style="width:100%; margin-bottom:12px;"
+          style="
+            width:100%;
+            margin-bottom:12px;
+          "
         />
 
         <button
@@ -56,25 +90,43 @@
         >
           Add Task
         </button>
+
       </form>
+
     </div>
 
   </div>
 
-  <!-- Tasks List -->
-  <div class="card" style="margin-top:24px;">
+  <!-- TASKS -->
+
+  <div
+    class="card"
+    style="margin-top:24px;"
+  >
+
     <h3>Tasks</h3>
 
     <% if (tasks.length === 0) { %>
-      <p class="subtitle">No tasks added yet.</p>
+
+      <p class="subtitle">
+        No tasks added yet.
+      </p>
+
     <% } %>
 
     <% tasks.forEach(task => { %>
+
       <form
         action="/tasks/<%= task._id %>/toggle"
         method="POST"
-        style="display:flex; align-items:center; gap:12px; margin-bottom:10px;"
+        style="
+          display:flex;
+          align-items:center;
+          gap:12px;
+          margin-bottom:10px;
+        "
       >
+
         <button
           type="submit"
           style="
@@ -90,10 +142,127 @@
           ✓
         </button>
 
-        <span style="<%= task.completed ? 'text-decoration:line-through;' : '' %>">
+        <span
+          style="
+            <%= task.completed
+              ? 'text-decoration:line-through;'
+              : ''
+            %>
+          "
+        >
+
           <%= task.title %>
+
         </span>
+
       </form>
+
+    <% }) %>
+
+  </div>
+
+  <!-- CODE REVIEWS -->
+
+  <div
+    class="card"
+    style="margin-top:24px;"
+  >
+
+    <div
+      style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:20px;
+      "
+    >
+
+      <h3>Code Reviews</h3>
+
+      <a
+        href="/projects/<%= project.id %>/snippets/new"
+        style="
+          background:#2563eb;
+          color:white;
+          padding:10px 16px;
+          border-radius:8px;
+          text-decoration:none;
+        "
+      >
+        + Add Code Snippet
+      </a>
+
+    </div>
+
+    <% if (snippets.length === 0) { %>
+
+      <p class="subtitle">
+        No code snippets added yet.
+      </p>
+
+    <% } %>
+
+    <% snippets.forEach(snippet => { %>
+
+      <div
+        style="
+          border:1px solid #e5e7eb;
+          border-radius:12px;
+          padding:18px;
+          margin-bottom:18px;
+        "
+      >
+
+        <div
+          style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+          "
+        >
+
+          <div>
+
+            <h3 style="margin-bottom:6px;">
+
+              <a
+                href="/snippets/<%= snippet._id %>"
+                style="
+                  text-decoration:none;
+                  color:#2563eb;
+                "
+              >
+
+                <%= snippet.title %>
+
+              </a>
+
+            </h3>
+
+            <p class="subtitle">
+
+              Language:
+              <strong>
+                <%= snippet.language %>
+              </strong>
+
+            </p>
+
+            <p class="subtitle">
+
+              Added by:
+              <strong>
+                <%= snippet.userId.name %>
+              </strong>
+
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
     <% }) %>
 
   </div>

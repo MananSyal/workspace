@@ -1,25 +1,71 @@
-<nav class="navbar">
+<nav class="navbar topbar">
 
-  <!-- Greeting -->
-  <div style="font-weight:500; font-size:16px;">
-    👋 Hello, <b><%= user.name %></b>
+  <!-- LEFT -->
+
+  <div class="nav-left">
+
+    <div class="welcome">
+
+      👋 Hello,
+      <b><%= user.name %></b>
+
+    </div>
+
   </div>
 
-  <!-- Right Side -->
+  <!-- CENTER -->
+
+  <div class="nav-center">
+
+    <a href="/teams">
+
+      Teams
+
+    </a>
+
+    <a href="/teams/new">
+
+      Create Team
+
+    </a>
+
+  </div>
+
+  <!-- RIGHT -->
+
   <div class="nav-right">
 
     <span class="jwt">
-      <i class="fa-solid fa-shield-halved"></i> JWT Active
+
+      <i class="fa-solid fa-shield-halved"></i>
+
+      JWT Active
+
     </span>
 
-    <i class="fa-regular fa-bell"></i>
+    <button class="icon-btn">
 
-    <!-- Logout -->
-    <form action="/logout" method="POST" style="margin:0;">
-      <button type="submit" class="logout-btn" title="Logout">
+      <i class="fa-regular fa-bell"></i>
+
+    </button>
+
+    <form
+      action="/logout"
+      method="POST"
+      style="margin:0;"
+    >
+
+      <button
+        type="submit"
+        class="icon-btn"
+      >
+
         <i class="fa-solid fa-right-from-bracket"></i>
+
       </button>
+
     </form>
 
   </div>
+
 </nav>

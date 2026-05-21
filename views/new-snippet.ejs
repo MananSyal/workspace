@@ -1,0 +1,64 @@
+<div style="max-width:900px;">
+
+  <h1>Add Code Snippet</h1>
+
+  <form
+    action="/projects/<%= project._id %>/snippets"
+    method="POST"
+    class="card"
+  >
+
+    <div style="margin-bottom:20px;">
+
+      <label>Snippet Title</label>
+
+      <input
+        type="text"
+        name="title"
+        required
+        style="width:100%;"
+      >
+
+    </div>
+
+    <div style="margin-bottom:20px;">
+
+      <label>Programming Language</label>
+
+      <select
+        name="language"
+        style="width:100%;"
+      >
+
+        <option value="javascript">JavaScript</option>
+        <option value="cpp">C++</option>
+        <option value="java">Java</option>
+        <option value="python">Python</option>
+
+      </select>
+
+    </div>
+
+    <div style="margin-bottom:20px;">
+
+      <label>Code</label>
+
+      <textarea
+        name="code"
+        rows="15"
+        required
+        style="
+          width:100%;
+          font-family:monospace;
+        "
+      ></textarea>
+
+    </div>
+
+    <button type="submit">
+      Save Snippet
+    </button>
+
+  </form>
+
+</div>

@@ -1,44 +1,143 @@
 <aside class="sidebar">
+
+  <!-- TOP -->
+
   <div>
-    <h2>PM System</h2>
-    <p class="tech">Node.js + Express.js</p>
 
-  <ul class="menu">
+    <!-- LOGO -->
 
-  <li class="<%= currentPath === '/' ? 'active' : '' %>">
-    <a href="/">
-      <i class="fa-solid fa-chart-pie"></i>
-      <span>Dashboard</span>
-    </a>
-  </li>
+    <div style="padding:24px 20px;">
 
-  <li class="<%= currentPath.startsWith('/projects') ? 'active' : '' %>">
-    <a href="/projects">
-      <i class="fa-solid fa-folder"></i>
-      <span>Projects</span>
-    </a>
-  </li>
+      <h2
+        style="
+          margin-bottom:6px;
+          display:flex;
+          align-items:center;
+          gap:10px;
+        "
+      >
 
-  <li class="<%= currentPath.startsWith('/tasks') ? 'active' : '' %>">
-    <a href="/tasks">
-      <i class="fa-solid fa-list-check"></i>
-      <span>Tasks</span>
-    </a>
-  </li>
+        💻 <span>PM System</span>
 
-  <li>
-    <a href="/projects/new">
-      <i class="fa-solid fa-plus"></i>
-      <span>New Project</span>
-    </a>
-  </li>
+      </h2>
 
-</ul>
+      <p class="tech">
+
+        <span>Node.js + Express.js</span>
+
+      </p>
+
+    </div>
+
+    <!-- MENU -->
+
+    <ul class="menu">
+
+      <!-- DASHBOARD -->
+
+      <li class="<%= currentPath === '/' ? 'active' : '' %>">
+
+        <a href="/">
+
+          <i class="fa-solid fa-chart-pie"></i>
+
+          <span>Dashboard</span>
+
+        </a>
+
+      </li>
+
+      <!-- PROJECTS -->
+
+      <li class="<%= currentPath.startsWith('/projects') ? 'active' : '' %>">
+
+        <a href="/projects">
+
+          <i class="fa-solid fa-folder"></i>
+
+          <span>Projects</span>
+
+        </a>
+
+      </li>
+
+      <!-- TASKS -->
+
+      <li class="<%= currentPath.startsWith('/tasks') ? 'active' : '' %>">
+
+        <a href="/tasks">
+
+          <i class="fa-solid fa-list-check"></i>
+
+          <span>Tasks</span>
+
+        </a>
+
+      </li>
+
+      <!-- TEAMS -->
+
+      <li class="<%= currentPath.startsWith('/teams') ? 'active' : '' %>">
+
+        <a href="/teams">
+
+          <i class="fa-solid fa-users"></i>
+
+          <span>Teams</span>
+
+        </a>
+
+      </li>
+
+      <!-- CREATE TEAM -->
+
+      <li>
+
+        <a href="/teams/new">
+
+          <i class="fa-solid fa-user-plus"></i>
+
+          <span>Create Team</span>
+
+        </a>
+
+      </li>
+
+      <!-- NEW PROJECT -->
+
+      <li>
+
+        <a href="/projects/new">
+
+          <i class="fa-solid fa-plus"></i>
+
+          <span>New Project</span>
+
+        </a>
+
+      </li>
+
+    </ul>
 
   </div>
+
+  <!-- FOOTER -->
 
   <div class="sidebar-footer">
-    Role: <b>MEMBER</b><br />
-    RBAC Enabled
+
+    <div style="margin-bottom:8px;">
+
+      Role:
+      <b>MEMBER</b>
+
+    </div>
+
+    <div class="subtitle">
+
+      RBAC Enabled
+
+    </div>
+
   </div>
+
 </aside>

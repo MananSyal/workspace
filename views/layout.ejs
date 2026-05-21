@@ -1,73 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
+
   <title>PM System</title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- GOOGLE FONT -->
 
-  <!-- Font Awesome (Icons) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
 
-  <!-- Dashboard CSS -->
-  <link rel="stylesheet" href="/css/dashboard.css?v=FINAL">
+  <!-- FONT AWESOME -->
 
-  <!-- Chart.js (kept but unused now – safe) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  >
+
+  <!-- DASHBOARD CSS -->
+
+  <link
+    rel="stylesheet"
+    href="/css/dashboard.css?v=FINAL"
+  >
+
+  <!-- CHART JS -->
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- CUSTOM UI -->
+
+  <style>
+
+    body {
+
+      transition:
+        background 0.3s ease,
+        color 0.3s ease;
+
+    }
+
+    /* =========================
+       DARK MODE
+    ========================== */
+
+    body.dark {
+
+      background: #0f172a;
+      color: #f8fafc;
+
+    }
+
+    body.dark .main-content {
+
+      background: #0f172a;
+
+    }
+
+    body.dark .page-content {
+
+      background: #0f172a;
+
+    }
+
+    body.dark .card {
+
+      background: #1e293b !important;
+
+      color: white !important;
+
+      box-shadow:
+        0 10px 30px rgba(0,0,0,0.35);
+
+    }
+
+    body.dark .sidebar {
+
+      background: #111827 !important;
+
+    }
+
+    body.dark .topbar {
+
+      background: #111827 !important;
+
+      border-bottom: 1px solid #1e293b;
+
+    }
+
+    body.dark input,
+    body.dark textarea,
+    body.dark select {
+
+      background: #1e293b;
+      color: white;
+      border: 1px solid #334155;
+
+    }
+
+    body.dark a {
+
+      color: #93c5fd;
+
+    }
+
+    body.dark .subtitle {
+
+      color: #cbd5e1 !important;
+
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================== */
+
+    .sidebar {
+
+      transition: all 0.3s ease;
+
+    }
+
+    .sidebar.closed {
+
+      width: 90px !important;
+
+      overflow: hidden;
+
+    }
+
+    .sidebar.closed span {
+
+      display: none;
+
+    }
+
+    /* =========================
+       CARDS
+    ========================== */
+
+    .card {
+
+      border-radius: 18px !important;
+
+      box-shadow:
+        0 10px 30px rgba(0,0,0,0.08);
+
+      transition: all 0.3s ease;
+
+    }
+
+    .card:hover {
+
+      transform: translateY(-3px);
+
+    }
+
+    /* =========================
+       BUTTONS
+    ========================== */
+
+    .ui-btn {
+
+      border: none;
+
+      background: none;
+
+      font-size: 20px;
+
+      cursor: pointer;
+
+      color: inherit;
+
+    }
+
+  </style>
+
 </head>
 
-<body>
+<body id="body">
+
   <div class="app-container">
 
-    <!-- Sidebar -->
-    <%- include('partials/sidebar') %>
+    <!-- SIDEBAR -->
 
-    <!-- Main Content -->
+    <div id="sidebar-wrapper">
+
+      <%- include('partials/sidebar') %>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
     <div class="main-content">
 
-      <!-- Top Navbar -->
-      <%- include('partials/navbar') %>
+      <!-- TOPBAR -->
 
-      <!-- Page Content -->
+      <div
+        style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          padding:14px 24px;
+        "
+        class="topbar"
+      >
+
+        <!-- LEFT -->
+
+        <div
+          style="
+            display:flex;
+            align-items:center;
+            gap:14px;
+          "
+        >
+
+          <!-- SIDEBAR TOGGLE -->
+
+          <button
+            onclick="toggleSidebar()"
+            class="ui-btn"
+          >
+            ☰
+          </button>
+
+          <!-- DARK MODE -->
+
+          <button
+            onclick="toggleDarkMode()"
+            class="ui-btn"
+          >
+            🌙
+          </button>
+
+        </div>
+
+        <!-- EXISTING NAVBAR -->
+
+        <div style="width:100%;">
+
+          <%- include('partials/navbar') %>
+
+        </div>
+
+      </div>
+
+      <!-- PAGE CONTENT -->
+
       <div class="page-content">
+
         <%- body %>
+
       </div>
 
     </div>
+
   </div>
 
-  <!-- ✅ WebSocket Client -->
+  <!-- =========================
+       WEBSOCKET
+  ========================== -->
+
   <script>
+
     (function () {
-      const protocol = location.protocol === "https:" ? "wss" : "ws";
-      const socket = new WebSocket(protocol + "://" + location.host);
+
+      const protocol =
+        location.protocol === "https:"
+          ? "wss"
+          : "ws";
+
+      const socket = new WebSocket(
+        protocol + "://" + location.host
+      );
 
       socket.onopen = () => {
+
         console.log("✅ WebSocket connected");
+
       };
 
       socket.onmessage = (event) => {
+
         const msg = JSON.parse(event.data);
 
         if (msg.type === "stats") {
+
           const data = msg.data;
 
-          const tp = document.getElementById("total-projects");
-          const tt = document.getElementById("total-tasks");
-          const cr = document.getElementById("completion-rate");
+          const tp =
+            document.getElementById("total-projects");
 
-          if (tp) tp.innerText = data.totalProjects;
-          if (tt) tt.innerText = data.totalTasks;
-          if (cr) cr.innerText = data.overallCompletion + "%";
+          const tt =
+            document.getElementById("total-tasks");
+
+          const cr =
+            document.getElementById("completion-rate");
+
+          if (tp)
+            tp.innerText = data.totalProjects;
+
+          if (tt)
+            tt.innerText = data.totalTasks;
+
+          if (cr)
+            cr.innerText =
+              data.overallCompletion + "%";
+
         }
+
       };
 
       socket.onerror = (err) => {
-        console.error("WebSocket error:", err);
+
+        console.error(
+          "WebSocket error:",
+          err
+        );
+
       };
+
     })();
+
+  </script>
+
+  <!-- =========================
+       DARK MODE + SIDEBAR
+  ========================== -->
+
+  <script>
+
+    // DARK MODE
+
+    function toggleDarkMode() {
+
+      document.body.classList.toggle("dark");
+
+      localStorage.setItem(
+
+        "darkMode",
+
+        document.body.classList.contains("dark")
+
+      );
+
+    }
+
+    // LOAD SAVED THEME
+
+   const savedTheme =
+  localStorage.getItem("darkMode");
+
+if (savedTheme === "true") {
+
+  document.body.classList.add("dark");
+
+} else {
+
+  document.body.classList.remove("dark");
+
+}
+    // SIDEBAR TOGGLE
+
+    function toggleSidebar() {
+
+      const sidebar =
+        document.querySelector(".sidebar");
+
+      sidebar.classList.toggle("closed");
+
+    }
+
   </script>
 
 </body>
+
 </html>

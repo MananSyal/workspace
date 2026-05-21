@@ -1,12 +1,17 @@
 <div style="max-width:800px;">
 
   <h1>Create New Project</h1>
+
   <p class="subtitle">
     Provide basic details to create a new project.
   </p>
 
   <% if (error) { %>
-    <p style="color:#dc2626;"><%= error %></p>
+
+    <p style="color:#dc2626;">
+      <%= error %>
+    </p>
+
   <% } %>
 
   <form
@@ -16,8 +21,12 @@
     style="margin-top:20px;"
   >
 
+    <!-- PROJECT NAME -->
+
     <div style="margin-bottom:16px;">
+
       <label>Project Name</label>
+
       <input
         type="text"
         name="title"
@@ -25,19 +34,75 @@
         required
         style="width:100%; margin-top:6px;"
       />
+
     </div>
 
+    <!-- DESCRIPTION -->
+
     <div style="margin-bottom:20px;">
+
       <label>Description</label>
+
       <textarea
         name="description"
         rows="4"
         placeholder="Describe your project (optional)"
         style="width:100%; margin-top:6px;"
       ></textarea>
+
     </div>
 
+    <!-- TEAM SELECT -->
+
+    <div style="margin-bottom:20px;">
+
+      <label>Select Team</label>
+
+      <select
+        name="teamId"
+        style="
+          width:100%;
+          margin-top:6px;
+          padding:10px;
+          border-radius:8px;
+          border:1px solid #cbd5e1;
+        "
+      >
+
+        <option value="">
+          Personal Project
+        </option>
+
+        <% if (teams && teams.length > 0) { %>
+
+          <% teams.forEach(team => { %>
+
+            <option value="<%= team._id %>">
+
+              <%= team.name %>
+
+            </option>
+
+          <% }) %>
+
+        <% } %>
+
+      </select>
+
+      <p style="
+        margin-top:8px;
+        color:#64748b;
+        font-size:14px;
+      ">
+        If you select a team, all team members can view and edit this project.
+      </p>
+
+    </div>
+
+    <!-- BUTTONS -->
+
     <div style="display:flex; justify-content:space-between;">
+
       <a
         href="/projects"
         style="
@@ -65,6 +130,7 @@
       >
         Create Project
       </button>
+
     </div>
 
   </form>

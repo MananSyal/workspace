@@ -1,0 +1,80 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+/>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<script>
+  hljs.highlightAll();
+</script>
+
+<div style="max-width:1000px;">
+
+  <h1><%= snippet.title %></h1>
+
+  <p>
+    Language:
+    <strong><%= snippet.language %></strong>
+  </p>
+
+  <p>
+    Uploaded by:
+    <strong><%= snippet.userId.name %></strong>
+  </p>
+
+  <pre>
+    <code class="language-<%= snippet.language %>">
+<%= snippet.code %>
+    </code>
+  </pre>
+
+  <hr>
+
+  <h2>Review Comments</h2>
+
+  <% comments.forEach(comment => { %>
+
+    <div
+      style="
+        border:1px solid #ddd;
+        padding:12px;
+        margin-bottom:12px;
+      "
+    >
+
+      <strong>
+        <%= comment.userId.name %>
+      </strong>
+
+      <p>
+        <%= comment.comment %>
+      </p>
+
+    </div>
+
+  <% }) %>
+
+  <form
+    action="/snippets/<%= snippet._id %>/comment"
+    method="POST"
+  >
+
+    <textarea
+      name="comment"
+      rows="4"
+      required
+      style="width:100%;"
+      placeholder="Write review comment..."
+    ></textarea>
+
+    <button
+      type="submit"
+      style="margin-top:10px;"
+    >
+      Add Review
+    </button>
+
+  </form>
+
+</div>
