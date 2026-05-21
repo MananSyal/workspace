@@ -6,6 +6,30 @@
   >
     ← Back to projects
   </a>
+  <form
+  action="/projects/<%= project.id %>/delete"
+  method="POST"
+  style="margin-bottom:20px;"
+>
+
+  <button
+    type="submit"
+    onclick="return confirm('Delete this project?')"
+    style="
+      background:#dc2626;
+      color:white;
+      border:none;
+      padding:10px 18px;
+      border-radius:10px;
+      cursor:pointer;
+    "
+  >
+
+    🗑 Delete Project
+
+  </button>
+
+</form>
 
   <div
     class="stats"

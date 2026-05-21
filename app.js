@@ -528,17 +528,46 @@ app.get("/snippets/:id", requireAuth, async (req, res) => {
     .populate("userId");
 
   if (!snippet) {
+
     return res.send("Snippet not found");
+
   }
+
+  const project = await Project.findById(
+    snippet.projectId
+  );
 
   const comments = await ReviewComment.find({
     snippetId: snippet._id
   }).populate("userId");
 
+  // CHECK EDIT ACCESS
+
+  const canEdit =
+
+    snippet.userId._id.toString() ===
+    req.user._id.toString()
+
+    ||
+
+    project.userId.toString() ===
+    req.user._id.toString()
+
+    ||
+
+    project.sharedWith.some(
+      userId =>
+        userId.toString() ===
+        req.user._id.toString()
+    );
+
   res.render("snippet-detail", {
 
     snippet,
-    comments
+
+    comments,
+
+    canEdit
 
   });
 
@@ -558,6 +587,174 @@ app.post("/snippets/:id/comment", requireAuth, async (req, res) => {
   });
 
   res.redirect(`/snippets/${req.params.id}`);
+
+});
+// SHOW EDIT SNIPPET PAGE
+
+app.get("/snippets/:id/edit", requireAuth, async (req, res) => {
+
+  const snippet = await CodeSnippet.findById(req.params.id);
+
+  if (!snippet) {
+
+    return res.send("Snippet not found");
+
+  }
+
+  const project = await Project.findById(
+    snippet.projectId
+  );
+
+  // ALLOW:
+  // snippet owner
+  // OR project owner
+  // OR shared teammate
+
+  const canEdit =
+
+    snippet.userId.toString() ===
+    req.user._id.toString()
+
+    ||
+
+    project.userId.toString() ===
+    req.user._id.toString()
+
+    ||
+
+    project.sharedWith.some(
+      userId =>
+        userId.toString() ===
+        req.user._id.toString()
+    );
+
+  if (!canEdit) {
+
+    return res.send("Access denied");
+
+  }
+
+  res.render("edit-snippet", {
+
+    snippet
+
+  });
+
+});
+
+
+// UPDATE SNIPPET
+
+app.post("/snippets/:id/edit", requireAuth, async (req, res) => {
+
+  const snippet = await CodeSnippet.findById(req.params.id);
+
+  if (!snippet) {
+
+    return res.send("Snippet not found");
+
+  }
+
+  const project = await Project.findById(
+    snippet.projectId
+  );
+
+  const canEdit =
+
+    snippet.userId.toString() ===
+    req.user._id.toString()
+
+    ||
+
+    project.userId.toString() ===
+    req.user._id.toString()
+
+    ||
+
+    project.sharedWith.some(
+      userId =>
+        userId.toString() ===
+        req.user._id.toString()
+    );
+
+  if (!canEdit) {
+
+    return res.send("Access denied");
+
+  }
+
+  // UPDATE
+
+  snippet.title =
+    req.body.title;
+
+  snippet.language =
+    req.body.language;
+
+  snippet.code =
+    req.body.code;
+
+  await snippet.save();
+
+  res.redirect(
+    `/snippets/${snippet._id}`
+  );
+
+});
+// DELETE PROJECT
+
+app.post("/projects/:id/delete", requireAuth, async (req, res) => {
+
+  const project = await Project.findOne({
+
+    _id: req.params.id,
+
+    $or: [
+      { userId: req.user._id },
+      { sharedWith: req.user._id }
+    ]
+
+  });
+
+  if (!project) {
+
+    return res.send("Project not found");
+
+  }
+
+  // DELETE TASKS
+
+  await Task.deleteMany({
+    projectId: project._id
+  });
+
+  // DELETE SNIPPETS
+
+  const snippets = await CodeSnippet.find({
+    projectId: project._id
+  });
+
+  // DELETE COMMENTS OF SNIPPETS
+
+  for (const snippet of snippets) {
+
+    await ReviewComment.deleteMany({
+      snippetId: snippet._id
+    });
+
+  }
+
+  // DELETE SNIPPETS
+
+  await CodeSnippet.deleteMany({
+    projectId: project._id
+  });
+
+  // DELETE PROJECT
+
+  await Project.findByIdAndDelete(project._id);
+
+  res.redirect("/projects");
 
 });
 // =====================================================

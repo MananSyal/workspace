@@ -1,0 +1,111 @@
+<div style="max-width:1000px;">
+
+  <h1>Edit Code Snippet</h1>
+
+  <form
+    action="/snippets/<%= snippet._id %>/edit"
+    method="POST"
+    class="card"
+  >
+
+    <!-- TITLE -->
+
+    <div style="margin-bottom:20px;">
+
+      <label>Snippet Title</label>
+
+      <input
+        type="text"
+        name="title"
+        value="<%= snippet.title %>"
+        required
+      >
+
+    </div>
+
+    <!-- LANGUAGE -->
+
+    <div style="margin-bottom:20px;">
+
+      <label>Programming Language</label>
+
+      <select name="language">
+
+        <option
+          value="javascript"
+          <%= snippet.language === 'javascript'
+            ? 'selected'
+            : ''
+          %>
+        >
+          JavaScript
+        </option>
+
+        <option
+          value="cpp"
+          <%= snippet.language === 'cpp'
+            ? 'selected'
+            : ''
+          %>
+        >
+          C++
+        </option>
+
+        <option
+          value="java"
+          <%= snippet.language === 'java'
+            ? 'selected'
+            : ''
+          %>
+        >
+          Java
+        </option>
+
+        <option
+          value="python"
+          <%= snippet.language === 'python'
+            ? 'selected'
+            : ''
+          %>
+        >
+          Python
+        </option>
+
+      </select>
+
+    </div>
+
+    <!-- CODE -->
+
+    <div style="margin-bottom:20px;">
+
+      <label>Code</label>
+
+      <textarea
+        name="code"
+        rows="18"
+        required
+        style="
+          font-family:monospace;
+        "
+      ><%= snippet.code %></textarea>
+
+    </div>
+
+    <!-- BUTTON -->
+
+    <button
+      type="submit"
+      style="
+        background:#2563eb;
+        color:white;
+      "
+    >
+
+      💾 Save Changes
+
+    </button>
+
+  </form>
+
+</div>

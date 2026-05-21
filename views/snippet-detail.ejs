@@ -9,72 +9,261 @@
   hljs.highlightAll();
 </script>
 
-<div style="max-width:1000px;">
+<div style="max-width:1100px;">
 
-  <h1><%= snippet.title %></h1>
+  <!-- HEADER -->
 
-  <p>
-    Language:
-    <strong><%= snippet.language %></strong>
-  </p>
+  <div
+    style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:24px;
+    "
+  >
 
-  <p>
-    Uploaded by:
-    <strong><%= snippet.userId.name %></strong>
-  </p>
+    <div>
 
-  <pre>
-    <code class="language-<%= snippet.language %>">
-<%= snippet.code %>
-    </code>
-  </pre>
+      <h1 style="margin-bottom:8px;">
 
-  <hr>
+        <%= snippet.title %>
 
-  <h2>Review Comments</h2>
+      </h1>
 
-  <% comments.forEach(comment => { %>
+      <p class="subtitle">
 
-    <div
-      style="
-        border:1px solid #ddd;
-        padding:12px;
-        margin-bottom:12px;
-      "
-    >
+        Language:
+        <strong><%= snippet.language %></strong>
 
-      <strong>
-        <%= comment.userId.name %>
-      </strong>
+      </p>
 
-      <p>
-        <%= comment.comment %>
+      <p class="subtitle">
+
+        Uploaded by:
+        <strong><%= snippet.userId.name %></strong>
+
+      </p>
+
+      <p class="subtitle">
+
+        Last Updated:
+        <strong>
+          <%= new Date(snippet.updatedAt).toLocaleString() %>
+        </strong>
+
       </p>
 
     </div>
 
-  <% }) %>
+    <!-- ACTION BUTTONS -->
 
-  <form
-    action="/snippets/<%= snippet._id %>/comment"
-    method="POST"
+    <div
+      style="
+        display:flex;
+        gap:12px;
+      "
+    >
+
+      <% if (canEdit) { %>
+
+        <!-- EDIT -->
+
+        <a
+          href="/snippets/<%= snippet._id %>/edit"
+          style="
+            padding:10px 16px;
+            background:#2563eb;
+            color:white;
+            border-radius:12px;
+            text-decoration:none;
+            font-weight:500;
+          "
+        >
+
+          ✏ Edit
+
+        </a>
+
+      <% } %>
+
+    </div>
+
+  </div>
+
+  <!-- CODE BLOCK -->
+
+  <div
+    class="card"
+    style="
+      margin-bottom:30px;
+      overflow:hidden;
+    "
   >
 
-    <textarea
-      name="comment"
-      rows="4"
-      required
-      style="width:100%;"
-      placeholder="Write review comment..."
-    ></textarea>
-
-    <button
-      type="submit"
-      style="margin-top:10px;"
+    <div
+      style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:14px;
+      "
     >
-      Add Review
-    </button>
 
-  </form>
+      <h3 style="margin:0;">
+
+        Source Code
+
+      </h3>
+
+      <button
+        onclick="copyCode()"
+        style="
+          background:#334155;
+          color:white;
+        "
+      >
+
+        📋 Copy
+
+      </button>
+
+    </div>
+
+    <pre
+      style="
+        border-radius:14px;
+        overflow:auto;
+        margin:0;
+      "
+    >
+<code
+id="codeBlock"
+class="language-<%= snippet.language %>"
+><%= snippet.code %></code>
+    </pre>
+
+  </div>
+
+  <!-- COMMENTS -->
+
+  <div class="card">
+
+    <h2 style="margin-bottom:20px;">
+
+      Review Comments
+
+    </h2>
+
+    <% if (comments.length === 0) { %>
+
+      <p class="subtitle">
+
+        No reviews yet.
+
+      </p>
+
+    <% } %>
+
+    <% comments.forEach(comment => { %>
+
+      <div
+        style="
+          border:
+            1px solid rgba(255,255,255,0.08);
+
+          border-radius:14px;
+
+          padding:16px;
+
+          margin-bottom:16px;
+
+          background:
+            rgba(255,255,255,0.03);
+        "
+      >
+
+        <div
+          style="
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:8px;
+          "
+        >
+
+          <strong>
+
+            <%= comment.userId.name %>
+
+          </strong>
+
+          <span class="subtitle">
+
+            <%= new Date(comment.createdAt)
+              .toLocaleString()
+            %>
+
+          </span>
+
+        </div>
+
+        <p style="margin:0;">
+
+          <%= comment.comment %>
+
+        </p>
+
+      </div>
+
+    <% }) %>
+
+    <!-- REVIEW FORM -->
+
+    <form
+      action="/snippets/<%= snippet._id %>/comment"
+      method="POST"
+      style="margin-top:30px;"
+    >
+
+      <textarea
+        name="comment"
+        rows="4"
+        required
+        placeholder="Write review comment..."
+      ></textarea>
+
+      <button
+        type="submit"
+        style="
+          margin-top:14px;
+          background:#2563eb;
+          color:white;
+        "
+      >
+
+        Add Review
+
+      </button>
+
+    </form>
+
+  </div>
 
 </div>
+
+<!-- COPY SCRIPT -->
+
+<script>
+
+  function copyCode() {
+
+    const code =
+      document.getElementById("codeBlock")
+        .innerText;
+
+    navigator.clipboard.writeText(code);
+
+    alert("Code copied!");
+
+  }
+
+</script>
