@@ -630,4 +630,193 @@ button:hover {
 
   }
 
+}/* =========================================
+   LIGHT MODE
+========================================= */
+
+body.light {
+
+  background: #f8fafc;
+
+  color: #0f172a;
+
+}
+
+/* SIDEBAR */
+
+body.light .sidebar {
+
+  background: white;
+
+  border-right:
+    1px solid #e2e8f0;
+
+}
+
+body.light .sidebar h2 {
+
+  color: #0f172a;
+
+}
+
+body.light .menu li a {
+
+  color: #334155;
+
+}
+
+body.light .menu li a:hover {
+
+  background:
+    rgba(37,99,235,0.08);
+
+}
+
+/* TOPBAR */
+
+body.light .topbar {
+
+  background: white;
+
+  border-bottom:
+    1px solid #e2e8f0;
+
+}
+
+/* CARDS */
+
+body.light .card {
+
+  background: white;
+
+  color: #0f172a;
+
+  border:
+    1px solid #e2e8f0;
+
+}
+
+/* INPUTS */
+
+body.light input,
+body.light textarea,
+body.light select {
+
+  background: white;
+
+  color: #0f172a;
+
+  border:
+    1px solid #cbd5e1;
+
+}
+
+/* LINKS */
+
+body.light .nav-center a {
+
+  color: #334155;
+
+}
+
+body.light .subtitle,
+body.light .tech {
+
+  color: #64748b;
+
+}
+/* =========================================
+   LIGHT MODE
+========================================= */
+
+body.light {
+
+  background: #f8fafc;
+
+  color: #0f172a;
+
+}
+
+/* SIDEBAR */
+
+body.light .sidebar {
+
+  background: white;
+
+  border-right:
+    1px solid #e2e8f0;
+
+}
+
+body.light .sidebar h2 {
+
+  color: #0f172a;
+
+}
+
+body.light .menu li a {
+
+  color: #334155;
+
+}
+
+body.light .menu li a:hover {
+
+  background:
+    rgba(37,99,235,0.08);
+
+}
+
+/* TOPBAR */
+
+body.light .topbar {
+
+  background: white;
+
+  border-bottom:
+    1px solid #e2e8f0;
+
+}
+
+/* CARDS */
+
+body.light .card {
+
+  background: white;
+
+  color: #0f172a;
+
+  border:
+    1px solid #e2e8f0;
+
+}
+
+/* INPUTS */
+
+body.light input,
+body.light textarea,
+body.light select {
+
+  background: white;
+
+  color: #0f172a;
+
+  border:
+    1px solid #cbd5e1;
+
+}
+
+/* LINKS */
+
+body.light .nav-center a {
+
+  color: #334155;
+
+}
+
+body.light .subtitle,
+body.light .tech {
+
+  color: #64748b;
+
 }
